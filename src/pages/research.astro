@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+import researchRobot from "../assets/images/research-robot.jpg";
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
@@ -18,8 +20,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         </p>
       </div>
 
-      <div class="research-image-placeholder">
-        <span>research photo</span>
+      <div class="image-frame">
+        <Image
+          src={researchRobot}
+          alt="Willem Davison standing beside a humanoid robot"
+        />
       </div>
     </section>
 

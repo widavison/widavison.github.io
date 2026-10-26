@@ -1,9 +1,11 @@
 ---
+import { Image } from "astro:assets";
+import portrait from "../assets/images/portrait.jpg";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { site } from "../data/site";
 ---
 
-<BaseLayout>
+<BaseLayout description="Willem Davison — PhD student researching computer vision and robotics at the University of Edinburgh.">
   <div class="container">
     <section class="hero">
       <div class="hero-copy">
@@ -15,8 +17,11 @@ import { site } from "../data/site";
         <p class="muted">{site.institution}</p>
       </div>
 
-      <div class="portrait-placeholder">
-        <span>portrait</span>
+      <div class="image-frame">
+        <Image
+          src={portrait}
+          alt="Willem Davison at Edinburgh Castle"
+        />
       </div>
     </section>
 
@@ -26,8 +31,8 @@ import { site } from "../data/site";
       <div class="prose">
         <p>
           Hi, I'm Willem! I'm a PhD student at the University of Edinburgh
-          researching robotics and computer vision. I am honored to work under
-          the supervision of Dr Laura Sevilla-Lara. My research focusses on
+          researching robotics and computer vision. I am honoured to work under
+          the supervision of Dr Laura Sevilla-Lara. My research focuses on
           leveraging motion information and temporal dynamics for applications
           in fast and efficient video understanding, and real-time embodied AI
           control in dynamic environments.
