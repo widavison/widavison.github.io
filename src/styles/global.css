@@ -151,6 +151,16 @@ h1 {
   object-position: center;
 }
 
+.profile-image-frame img {
+  transform: scale(1);
+  transform-origin: 50% 30%;
+}
+
+.research-image-frame img {
+  transform: scale(1);
+  transform-origin: 50% 50%;
+}
+
 .section {
   padding: 96px 0;
 

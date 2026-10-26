@@ -17,13 +17,23 @@ const pageTitle =
   title === "Willem Davison"
     ? title
     : `${title} — Willem Davison`;
+
+const canonicalURL = new URL(
+  Astro.url.pathname,
+  Astro.site ?? Astro.url.origin
+);
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
+    <link rel="canonical" href={canonicalURL.toString()} />
+    <meta name="robots" content="index, follow" />
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
+
+    <meta name="google-site-verification" content="0xk7_0uS7VoDzf70qD-i0ccOzO_pitOWMmHW_89pbqg" />
 
     <link rel="icon" type="image/png" href="/favicon.png" />
 

@@ -1,7 +1,7 @@
 export const site = {
   name: "Willem Davison",
   role: "PhD Student in Computer Vision & Robotics",
-  institution: "University of Edinburgh",
+  institution: "The University of Edinburgh",
   location: "Edinburgh, UK",
 
   email: "davisonwillem@gmail.com",
