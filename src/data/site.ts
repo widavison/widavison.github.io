@@ -15,6 +15,7 @@ export const site = {
   researchAreas: [
     "Computer Vision",
     "Video Understanding",
+    "Motion Representations",
     "Robotics",
   ],
 };
