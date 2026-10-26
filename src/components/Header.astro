@@ -1,0 +1,35 @@
+---
+import { site } from "../data/site";
+
+const pathname = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <nav class="nav container" aria-label="Main navigation">
+    <div class="nav-left">
+      <a
+        href="/"
+        class:list={["nav-link", { active: pathname === "/" }]}
+      >
+        ~/home
+      </a>
+
+      <a
+        href="/research/"
+        class:list={["nav-link", { active: pathname.startsWith("/research") }]}
+      >
+        research
+      </a>
+    </div>
+
+    <div class="nav-right">
+      <a href="/cv.pdf" target="_blank" rel="noopener noreferrer">
+        CV ↗
+      </a>
+
+      <a href={`mailto:${site.email}`}>
+        contact
+      </a>
+    </div>
+  </nav>
+</header>

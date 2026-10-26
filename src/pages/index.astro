@@ -1,11 +1,73 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../data/site";
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout>
+  <div class="container">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">hello, i'm</p>
+
+        <h1>{site.name}</h1>
+
+        <p class="hero-role">{site.role}</p>
+        <p class="muted">{site.institution}</p>
+      </div>
+
+      <div class="portrait-placeholder">
+        <span>portrait</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="section-label">01 / about</p>
+
+      <div class="prose">
+        <p>
+          Hi, I'm Willem! I'm a PhD student at the University of Edinburgh
+          researching robotics and computer vision. I am honored to work under
+          the supervision of Dr Laura Sevilla-Lara. My research focusses on
+          leveraging motion information and temporal dynamics for applications
+          in fast and efficient video understanding, and real-time embodied AI
+          control in dynamic environments.
+        </p>
+
+        <p>
+          Outside of my research, I am an avid cyclist and hiker, love playing
+          squash, and enjoy photography. I also explore personal projects
+          including jewellery making and 3D printing.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading">
+        <p class="section-label">02 / research</p>
+
+        <a href="/research/" class="text-link">
+          explore research →
+        </a>
+      </div>
+
+      <div class="tag-list">
+        {site.researchAreas.map((area) => (
+          <span class="tag">{area}</span>
+        ))}
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="section-label">03 / updates</p>
+
+      <article class="update">
+        <time datetime="2026-10-26">2026.10.26</time>
+
+        <div>
+          <h2>Website created!</h2>
+          <p>Personal website created — updates to come.</p>
+        </div>
+      </article>
+    </section>
+  </div>
+</BaseLayout>

@@ -1,0 +1,332 @@
+:root {
+  --background: #181818;
+  --surface: #202020;
+  --surface-light: #282828;
+
+  --text: #d7d7d7;
+  --muted: #8c8c8c;
+  --border: #343434;
+
+  --blue: #569cd6;
+  --cyan: #4ec9b0;
+
+  --content-width: 1100px;
+  --page-padding: 24px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--background);
+  color: var(--text);
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+    Menlo,
+    monospace;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  line-height: 1.65;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--cyan);
+}
+
+.container {
+  width: min(
+    calc(100% - (2 * var(--page-padding))),
+    var(--content-width)
+  );
+  margin-inline: auto;
+}
+
+.site-header {
+  border-bottom: 1px solid var(--border);
+}
+
+.nav {
+  min-height: 72px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 24px;
+}
+
+.nav-left,
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav-link {
+  color: var(--muted);
+}
+
+.nav-link.active {
+  color: var(--cyan);
+}
+
+.hero,
+.page-intro {
+  min-height: 520px;
+
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr;
+  align-items: center;
+
+  gap: 80px;
+}
+
+.eyebrow,
+.section-label,
+.status {
+  margin: 0 0 16px;
+
+  color: var(--cyan);
+
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 16px;
+
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  line-height: 1;
+  letter-spacing: -0.07em;
+
+  color: #eeeeee;
+}
+
+.hero-role,
+.lead {
+  max-width: 700px;
+
+  margin-bottom: 4px;
+
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.portrait-placeholder,
+.research-image-placeholder {
+  aspect-ratio: 4 / 5;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--border);
+  background: var(--surface);
+
+  color: var(--muted);
+}
+
+.section {
+  padding: 96px 0;
+
+  border-top: 1px solid var(--border);
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.prose {
+  max-width: 760px;
+}
+
+.prose p {
+  margin-bottom: 1.5em;
+}
+
+.text-link {
+  color: var(--blue);
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.tag {
+  padding: 8px 12px;
+
+  border: 1px solid var(--border);
+
+  color: var(--muted);
+}
+
+.update {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+
+  gap: 32px;
+
+  padding: 24px 0;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.update time {
+  color: var(--muted);
+}
+
+.update h2,
+.work-card h2,
+.research-question-list h2 {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.update p,
+.research-question-list p {
+  margin-bottom: 0;
+  color: var(--muted);
+}
+
+.research-question-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 24px;
+}
+
+.research-question-list article,
+.work-card {
+  padding: 24px;
+
+  border: 1px solid var(--border);
+
+  background: var(--surface);
+}
+
+.work-list {
+  display: grid;
+  gap: 16px;
+}
+
+.work-card h2 {
+  max-width: 800px;
+  margin-bottom: 20px;
+}
+
+.work-links {
+  display: flex;
+  gap: 16px;
+
+  color: var(--blue);
+}
+
+.site-footer {
+  margin-top: 64px;
+
+  border-top: 1px solid var(--border);
+}
+
+.footer-inner {
+  min-height: 140px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 32px;
+}
+
+.footer-links,
+.footer-meta {
+  display: flex;
+  gap: 20px;
+
+  color: var(--muted);
+}
+
+@media (max-width: 760px) {
+  :root {
+    --page-padding: 18px;
+  }
+
+  .nav {
+    min-height: auto;
+    padding: 18px 0;
+
+    align-items: flex-start;
+  }
+
+  .nav-left,
+  .nav-right {
+    gap: 14px;
+  }
+
+  .hero,
+  .page-intro {
+    min-height: auto;
+
+    grid-template-columns: 1fr;
+
+    gap: 48px;
+
+    padding: 80px 0;
+  }
+
+  .portrait-placeholder,
+  .research-image-placeholder {
+    max-width: 360px;
+  }
+
+  .section {
+    padding: 64px 0;
+  }
+
+  .research-question-list {
+    grid-template-columns: 1fr;
+  }
+
+  .update {
+    grid-template-columns: 1fr;
+
+    gap: 8px;
+  }
+
+  .footer-inner,
+  .footer-meta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .footer-inner {
+    padding: 40px 0;
+  }
+
+  .footer-links {
+    flex-wrap: wrap;
+  }
+}

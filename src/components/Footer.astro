@@ -1,0 +1,38 @@
+---
+import { site } from "../data/site";
+---
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-links">
+      <a
+        href={site.links.github}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        GitHub ↗
+      </a>
+
+      <a
+        href={site.links.scholar}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Scholar ↗
+      </a>
+
+      <a
+        href={site.links.linkedin}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        LinkedIn ↗
+      </a>
+    </div>
+
+    <div class="footer-meta">
+      <span>{site.location}</span>
+      <span>© {new Date().getFullYear()} {site.name}</span>
+    </div>
+  </div>
+</footer>
