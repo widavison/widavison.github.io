@@ -22,6 +22,16 @@ const canonicalURL = new URL(
   Astro.url.pathname,
   Astro.site ?? Astro.url.origin
 );
+
+const isHomePage = Astro.url.pathname === "/";
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Willem Davison",
+  alternateName: "Willem Davison Research",
+  url: "https://widavison.github.io/",
+};
 ---
 
 <!doctype html>
@@ -35,9 +45,23 @@ const canonicalURL = new URL(
 
     <meta name="google-site-verification" content="0xk7_0uS7VoDzf70qD-i0ccOzO_pitOWMmHW_89pbqg" />
 
-    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="96x96"
+      href="/favicon.png"
+    />
 
     <meta name="description" content={description} />
+
+    <meta property="og:site_name" content="Willem Davison" />
+
+    {isHomePage && (
+      <script
+        type="application/ld+json"
+        set:html={JSON.stringify(websiteSchema)}
+      />
+    )}
 
     <title>{pageTitle}</title>
   </head>
