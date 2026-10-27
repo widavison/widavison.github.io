@@ -420,24 +420,37 @@ h1 {
   gap: 16px;
 }
 
+.work-card {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 24px;
+  align-items: stretch;
+}
+
+.work-card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .work-card h2 {
   max-width: 800px;
   margin-bottom: 20px;
 }
 
 .work-card .work-image {
-  width: 100%;
-  margin-bottom: 16px;
   overflow: hidden;
   border: 1px solid var(--border);
   background: var(--surface-light);
+  align-self: stretch;
 }
 
 .work-card .work-image img,
 .work-card .work-image video {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
 }
 
 .work-card .co-authors {
@@ -552,6 +565,14 @@ h1 {
 
   .selected-work-card {
     min-height: auto;
+  }
+
+  .work-card {
+    grid-template-columns: 1fr;
+  }
+
+  .work-card .work-image {
+    height: 200px;
   }
 
   .update {

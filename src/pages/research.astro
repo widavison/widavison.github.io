@@ -1,6 +1,8 @@
 ---
 import { Image } from "astro:assets";
 import researchRobot from "../assets/images/research-robot.jpg";
+import matterOfTimeImg from "../assets/images/its_a_matter_of_time.png";
+import antVlaImg from "../assets/images/antvla.png";
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
@@ -75,45 +77,51 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
       <div class="work-list">
         <article class="work-card">
-          <p class="status">under review</p>
+          <div class="work-card-content">
+            <p class="status">under review</p>
 
-          <h2>
-            It's a Matter of Time: Three Lessons on Long-Term Motion for
-            Perception
-          </h2>
+            <h2>
+              It's a Matter of Time: Three Lessons on Long-Term Motion for
+              Perception
+            </h2>
 
-          <p class="co-authors">
-            Willem Davison, [Co-author Name], [Co-author Name]
-          </p>
+            <p class="co-authors">
+              Willem Davison, Maggie Hao, Laura Sevilla-Lara
+            </p>
 
-          <div class="work-image">
-            <img src="/path/to/your/image-or-gif.gif" alt="Visualization of motion perception work" />
+            <div class="work-links">
+              <a
+                href="https://arxiv.org/abs/2602.14705"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                paper ↗
+              </a>
+            </div>
           </div>
 
-          <div class="work-links">
-            <a
-              href="https://arxiv.org/abs/2602.14705"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              paper ↗
-            </a>
+          <div class="work-image">
+            <Image
+              src={matterOfTimeImg}
+              alt="Point tracking visualisations"
+            />
           </div>
         </article>
 
         <article class="work-card">
-          <p class="status">in progress</p>
+          <div class="work-card-content">
+            <p class="status">in progress</p>
 
-          <h2>
-            AntVLA: Anticipatory Action Adaptation for VLAs in Dynamic Tasks
-          </h2>
+            <h2>
+              AntVLA: Anticipatory Action Adaptation for VLAs in Dynamic Tasks
+            </h2>
 
-          <p class="co-authors">
-            Willem Davison, [Co-author Name], [Co-author Name]
-          </p>
-
-          <div class="work-image">
-            <img src="/path/to/your/antvla-visualization.gif" alt="Visualization of AntVLA project" />
+            <div class="work-image">
+              <Image
+                src={antVlaImg}
+                alt="Visualization of AntVLA"
+              />
+            </div>
           </div>
         </article>
       </div>
