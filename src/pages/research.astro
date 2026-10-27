@@ -7,48 +7,64 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 <BaseLayout
   title="Research"
   description="Research by Willem Davison in computer vision, video understanding and robotics."
+  theme="research"
 >
   <div class="container">
-    <section class="page-intro">
-      <div>
-        <p class="eyebrow">research</p>
+    <section class="page-intro research-intro">
+      <div class="image-frame research-image-frame">
+        <Image
+          src={researchRobot}
+          alt="Willem Davison standing beside a humanoid robot"
+          width={1043}
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+
+      <div class="research-intro-copy">
         <h1>Research</h1>
 
         <p class="lead">
-          My research focuses on motion, temporal reasoning and embodied
-          intelligence across computer vision and robotics.
+          Building AI with Temporal Understanding
         </p>
-      </div>
 
-      <div class="image-frame research-image-frame">
-      <Image
-        src={researchRobot}
-        alt="Willem Davison standing beside a humanoid robot"
-        width={1043}
-      />
-    </div>
+        <div class="hero-about">
+          <p class="section-label">00 / about</p>
+
+          <p>
+            My research lies at the intersection of video computer vision and intelligent robotic control, with a focus on dynamic environments.
+             My work leverages motion information to build online and emboddied AI models with advanced temporal reasoning capabilities.
+          </p>
+
+          <p>
+            Currently, I am looking into incorporating future state anticipation into state-of-the-art robotic control models to enable preemptive robot control in dynamic environments.
+          </p>
+
+        </div>
+
+      </div>
     </section>
 
     <section class="section">
-      <p class="section-label">01 / questions</p>
+      <p class="section-label">01 / themes</p>
 
       <div class="research-question-list">
         <article>
-          <h2>Vision Language Action models</h2>
-          <p>Enabling zero-shot generalist robot control.</p>
+          <h2>Vision Language Action (VLA) models</h2>
+          <p>Enabling zero-shot generalist robot control. VLAs are robot control models built upon Vision Language Models, equipping robots with high level visual and language reasoning capabilities.</p>
         </article>
 
         <article>
           <h2>Robot manipulation in dynamic tasks</h2>
           <p>
-            An essential, and often neglected, robot capability.
+            An essential, and often neglected, robot capability. The real world is inherently dynamic and filled with moving parts. Robots which operate in the real world must understand motion.
           </p>
         </article>
 
         <article>
           <h2>Motion as a visual information stream</h2>
           <p>
-            Endowing vision models with advanced temporal reasoning skills.
+            Endowing vision models with advanced temporal reasoning skills. Motion can be a highly efficient visual representation, allowing long-horizon temporal dependencies to be modelled at a low information cost.
           </p>
         </article>
       </div>
@@ -65,6 +81,14 @@ import BaseLayout from "../layouts/BaseLayout.astro";
             It's a Matter of Time: Three Lessons on Long-Term Motion for
             Perception
           </h2>
+
+          <p class="co-authors">
+            Willem Davison, [Co-author Name], [Co-author Name]
+          </p>
+
+          <div class="work-image">
+            <img src="/path/to/your/image-or-gif.gif" alt="Visualization of motion perception work" />
+          </div>
 
           <div class="work-links">
             <a
@@ -83,6 +107,14 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           <h2>
             AntVLA: Anticipatory Action Adaptation for VLAs in Dynamic Tasks
           </h2>
+
+          <p class="co-authors">
+            Willem Davison, [Co-author Name], [Co-author Name]
+          </p>
+
+          <div class="work-image">
+            <img src="/path/to/your/antvla-visualization.gif" alt="Visualization of AntVLA project" />
+          </div>
         </article>
       </div>
     </section>

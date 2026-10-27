@@ -7,62 +7,96 @@ import { site } from "../data/site";
 
 <BaseLayout description="Willem Davison — PhD student researching computer vision and robotics at the University of Edinburgh.">
   <div class="container">
-    <section class="hero">
+    <section class="hero home-hero">
       <div class="hero-copy">
         <h1>{site.name}</h1>
 
         <p class="hero-role">{site.role}</p>
         <p class="muted">{site.institution}</p>
+
+        <div class="hero-about">
+          <p class="section-label">00 / about</p>
+
+          <p>
+            Hi, I'm Willem! I'm a PhD student at the University of Edinburgh
+            researching robotics and computer vision. I work in the video vision 
+            research group within the Institute of Perception, Action and Behaviour (IPAB) under
+            the supervision of Dr Laura Sevilla-Lara. My research focuses on
+            leveraging motion information and temporal dynamics for applications
+            in fast and efficient video understanding, and real-time embodied AI
+            control in dynamic environments.
+          </p>
+
+          <p>
+            Outside of my research, I am an avid cyclist and hiker, I love playing
+            squash, and I enjoy photography. I also explore various personal projects
+            including jewellery making and 3D printing.
+          </p>
+        </div>
       </div>
 
       <div class="image-frame profile-image-frame">
-	    <Image
-	      src={portrait}
-	      alt="Willem Davison at Edinburgh Castle"
-	      width={1429}
-	    />
-	  </div>
-    </section>
-
-    <section class="section">
-      <p class="section-label">01 / about</p>
-
-      <div class="prose">
-        <p>
-          Hi, I'm Willem! I'm a PhD student at the University of Edinburgh
-          researching robotics and computer vision. I am honoured to work under
-          the supervision of Dr Laura Sevilla-Lara. My research focuses on
-          leveraging motion information and temporal dynamics for applications
-          in fast and efficient video understanding, and real-time embodied AI
-          control in dynamic environments.
-        </p>
-
-        <p>
-          Outside of my research, I am an avid cyclist and hiker, love playing
-          squash, and enjoy photography. I also explore personal projects
-          including jewellery making and 3D printing.
-        </p>
+        <Image
+          src={portrait}
+          alt="Willem Davison at Edinburgh Castle"
+          width={1224}
+          loading="eager"
+          fetchpriority="high"
+        />
       </div>
     </section>
 
     <section class="section">
       <div class="section-heading">
-        <p class="section-label">02 / research</p>
+        <p class="section-label">01 / selected work</p>
 
         <a href="/research/" class="text-link">
           explore research →
         </a>
       </div>
 
-      <div class="tag-list">
-        {site.researchAreas.map((area) => (
-          <span class="tag">{area}</span>
-        ))}
+      <div class="selected-work-grid">
+        <article class="work-card selected-work-card">
+          <p class="status">preprint · under review</p>
+
+          <h2>
+            It's a Matter of Time: Three Lessons on Long-Term Motion for
+            Perception
+          </h2>
+
+          <p class="work-summary">
+            Investigating what long-term motion representations can reveal about
+            actions, objects, materials and spatial structure.
+          </p>
+
+          <div class="work-links">
+            <a
+              href="https://arxiv.org/abs/2602.14705"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              paper ↗
+            </a>
+          </div>
+        </article>
+
+        <article class="work-card selected-work-card">
+          <p class="status">in progress</p>
+
+          <h2>
+            AntVLA: Anticipatory Action Adaptation for VLAs in Dynamic Tasks
+          </h2>
+
+          <p class="work-summary">
+            Developing anticipatory action adaptation for vision-language-action
+            models operating in dynamic tasks.
+          </p>
+        </article>
       </div>
     </section>
 
     <section class="section">
-      <p class="section-label">03 / updates</p>
+      <p class="section-label">02 / updates</p>
 
       <article class="update">
         <time datetime="2026-10-26">2026.10.26</time>
@@ -70,6 +104,15 @@ import { site } from "../data/site";
         <div>
           <h2>Website created!</h2>
           <p>Personal website created — updates to come.</p>
+        </div>
+      </article>
+
+      <article class="update">
+        <time datetime="2026-02-16">2026.02.16</time>
+
+        <div>
+          <h2>"It's a Matter of Time" preprint released</h2>
+          <p> Version 1 of paper "It's a Matter of Time: Three Lessons on Long-Term Motion for Perception" publicly released on arXiv.</p>
         </div>
       </article>
     </section>

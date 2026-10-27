@@ -6,17 +6,29 @@ const pathname = Astro.url.pathname;
 
 <header class="site-header">
   <nav class="nav container" aria-label="Main navigation">
-    <div class="nav-left">
+    <div class="nav-left nav-tabs">
       <a
         href="/"
-        class:list={["nav-link", { active: pathname === "/" }]}
+        class:list={[
+          "nav-link",
+          "nav-tab",
+          "nav-tab-home",
+          { active: pathname === "/" },
+        ]}
+        aria-current={pathname === "/" ? "page" : undefined}
       >
         ~/home
       </a>
 
       <a
         href="/research/"
-        class:list={["nav-link", { active: pathname.startsWith("/research") }]}
+        class:list={[
+          "nav-link",
+          "nav-tab",
+          "nav-tab-research",
+          { active: pathname.startsWith("/research") },
+        ]}
+        aria-current={pathname.startsWith("/research") ? "page" : undefined}
       >
         research
       </a>
@@ -24,12 +36,26 @@ const pathname = Astro.url.pathname;
 
     <div class="nav-right">
       <a href="/cv.pdf" target="_blank" rel="noopener noreferrer">
-        CV ↗
+        download CV ↗
       </a>
 
-      <a href={`mailto:${site.email}`}>
-        contact
-      </a>
+      <details class="contact-menu">
+        <summary>contact</summary>
+
+        <div class="contact-panel">
+          <span class="contact-label">email</span>
+          <a href={`mailto:${site.email}`}>{site.email}</a>
+
+          <span class="contact-label">social</span>
+          <a
+            href={site.links.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            LinkedIn ↗
+          </a>
+        </div>
+      </details>
     </div>
   </nav>
 </header>

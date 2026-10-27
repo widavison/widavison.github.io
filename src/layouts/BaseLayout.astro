@@ -6,11 +6,13 @@ import "../styles/global.css";
 interface Props {
   title?: string;
   description?: string;
+  theme?: "home" | "research";
 }
 
 const {
   title = "Willem Davison",
   description = "Willem Davison — PhD student in Computer Vision and Robotics at the University of Edinburgh.",
+  theme = "home",
 } = Astro.props;
 
 const pageTitle =
@@ -66,7 +68,7 @@ const websiteSchema = {
     <title>{pageTitle}</title>
   </head>
 
-  <body>
+  <body class={`theme-${theme}`}>
     <Header />
 
     <main>
