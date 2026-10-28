@@ -30,20 +30,22 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           Building AI with Temporal Understanding
         </p>
 
-        <div class="hero-about">
+        <div class="hero-about research-about">
           <p class="section-label">00 / about</p>
 
           <p>
-            My research lies at the intersection of video computer vision and intelligent robotic control, with a focus on dynamic environments.
-             My work leverages motion information to build online and emboddied AI models with advanced temporal reasoning capabilities.
+            My research lies at the intersection of video computer vision and
+            intelligent robotic control, with a focus on dynamic environments. My
+            work leverages motion information to build online and embodied AI
+            models with advanced temporal reasoning capabilities.
           </p>
 
           <p>
-            Currently, I am looking into incorporating future state anticipation into state-of-the-art robotic control models to enable preemptive robot control in dynamic environments.
+            Currently, I am looking into incorporating future-state anticipation
+            into state-of-the-art robotic control models to enable preemptive robot
+            control in dynamic environments.
           </p>
-
         </div>
-
       </div>
     </section>
 
@@ -76,7 +78,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <p class="section-label">02 / current work</p>
 
       <div class="work-list">
-        <article class="work-card">
+        <article class="work-card research-work-card">
           <div class="work-card-content">
             <p class="status">under review</p>
 
@@ -108,7 +110,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           </div>
         </article>
 
-        <article class="work-card">
+        <article class="work-card research-work-card">
           <div class="work-card-content">
             <p class="status">in progress</p>
 
@@ -116,12 +118,17 @@ import BaseLayout from "../layouts/BaseLayout.astro";
               AntVLA: Anticipatory Action Adaptation for VLAs in Dynamic Tasks
             </h2>
 
-            <div class="work-image">
-              <Image
-                src={antVlaImg}
-                alt="Visualization of AntVLA"
-              />
-            </div>
+            <p class="co-authors">
+              Willem Davison
+              <!-- Add confirmed co-authors here, separated by commas. -->
+            </p>
+          </div>
+
+          <div class="work-image">
+            <Image
+              src={antVlaImg}
+              alt="Visualization of AntVLA"
+            />
           </div>
         </article>
       </div>
