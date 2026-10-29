@@ -1,0 +1,105 @@
+{
+  "schema": "antvla.web_demo.camera.v1",
+  "source_frame": "Franka panda_link0 / robot-root frame",
+  "isaac_policy_camera": {
+    "name": "opst_cam",
+    "position_robot_root": [
+      1,
+      0,
+      0.6
+    ],
+    "orientation_wxyz_robot_root": [
+      0.6123724356957946,
+      0.3535533905932737,
+      0.35355339059327373,
+      0.6123724356957945
+    ],
+    "orientation_convention": "OpenGL camera; looks along local -Z, local +Y is image up",
+    "focal_length_mm": 2.3,
+    "horizontal_aperture_mm": 4.6,
+    "horizontal_fov_degrees": 90.0,
+    "vertical_fov_degrees": 73.73979529168804,
+    "near_m": 0.01,
+    "far_m": 10000.0,
+    "resolution": [
+      480,
+      360
+    ],
+    "intrinsics_px": {
+      "fx": 240.0,
+      "fy": 240.0,
+      "cx": 240.0,
+      "cy": 180.0,
+      "pixel_origin": "top-left; principal point reported in continuous pixel coordinates"
+    },
+    "update_period_seconds": 0.04
+  },
+  "browser_camera": {
+    "position_isaac_robot_root": [
+      0.8,
+      -0.5,
+      1.2
+    ],
+    "look_at_isaac_robot_root": [
+      0.3,
+      0.6,
+      0.2
+    ],
+    "vertical_fov_degrees": 55.0,
+    "horizontal_fov_degrees": 85.56559,
+    "near_m": 0.01,
+    "far_m": 20.0,
+    "resolution": [
+      1280,
+      720
+    ],
+    "up_isaac": [
+      0,
+      0,
+      1
+    ],
+    "design_note": "Measured-bound audit view: the avocado starts fully outside, enters after 0.28 s, and both the teacher placement and baseline dropped-object terminal state remain visible.",
+    "candidate_specific": true,
+    "intrinsics_px": {
+      "fx": 691.5535657096198,
+      "fy": 691.5535657096198,
+      "cx": 640.0,
+      "cy": 360.0,
+      "pixel_origin": "top-left; principal point reported in continuous pixel coordinates"
+    }
+  },
+  "isaac_world_to_browser": [
+    1.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1.0,
+    0.0,
+    0.0,
+    -1.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1.0
+  ],
+  "coordinate_conversion": "Apply the common root matrix once; all trajectory poses stay in Isaac robot-root coordinates.",
+  "canonical_q0_end_effector_projection": {
+    "ndc": [
+      0.7106970953969682,
+      -0.19137144535341047
+    ],
+    "normalised_screen_top_left": [
+      0.8553485476984841,
+      0.5956857226767053
+    ],
+    "pixel": [
+      1094.8461410540597,
+      428.8937203272278
+    ],
+    "depth_m": 0.9525883786647914
+  }
+}

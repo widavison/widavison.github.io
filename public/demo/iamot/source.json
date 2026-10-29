@@ -1,0 +1,9 @@
+{
+  "video": "https://www.youtube.com/watch?v=kmpiZD0Tygg",
+  "source_start": 5.2,
+  "source_end": 9.233333333333334,
+  "model": "CoTracker3 scaled_online",
+  "points": 50,
+  "selection_sha256": "dd51135cace79bd2316500033dc16b703fd5343f15f1c4cbe6a8bde95a314f1e",
+  "trail_history": "0.5 seconds, cyclic across the loop; the hard-cut joining segment is omitted."
+}

@@ -1,0 +1,304 @@
+<div class="rollout-demo" data-rollout-demo data-assets="/demo/antvla/3d/">
+  <div class="demo-heading">
+    <div>
+      <p class="demo-kicker">Interactive 3D rollout</p>
+      <p class="demo-instruction">“Place the green avocado in the paper box.”</p>
+    </div>
+
+  </div>
+
+  <div class="policy-bar">
+    <div class="policy-switch" role="group" aria-label="Choose rollout">
+      <button type="button" data-policy="baseline" aria-pressed="false" disabled>
+        baseline
+      </button>
+      <button type="button" data-policy="antvla" aria-pressed="true" disabled>
+        AntVLA
+      </button>
+    </div>
+
+    <span class="playback-state" data-rollout-state aria-live="polite">loading 3D scene…</span>
+  </div>
+
+  <div class="scene-frame" data-rollout-viewport aria-busy="true">
+    <canvas
+      data-rollout-canvas
+      role="img"
+      aria-label="Interactive 3D Franka robot replaying recorded joint motion. Drag to orbit and scroll or pinch to zoom."
+    ></canvas>
+    <span class="scene-label" data-rollout-label>AntVLA</span>
+    <p class="scene-message" data-rollout-message role="status">Loading robot and recorded motion…</p>
+    <span class="orbit-hint">drag to orbit · scroll / pinch to zoom</span>
+    <noscript><p class="scene-message">Enable JavaScript to view the 3D robot animation.</p></noscript>
+  </div>
+
+  <div class="playback-controls">
+    <div class="timeline-controls">
+      <button type="button" data-rollout-play disabled>play</button>
+      <input
+        type="range"
+        data-rollout-timeline
+        aria-label="Rollout time"
+        min="0"
+        max="1"
+        step="0.001"
+        value="0"
+        disabled
+      />
+      <span class="time-readout" data-rollout-time>0.0 / 0.0 s</span>
+    </div>
+    <div class="view-controls">
+      <label class="speed-control">
+        speed
+        <select data-rollout-speed aria-label="Playback speed" disabled>
+          <option value="0.5">0.5×</option>
+          <option value="1" selected>1×</option>
+          <option value="2">2×</option>
+        </select>
+      </label>
+      <label class="loop-control"><input type="checkbox" data-rollout-loop checked disabled /> loop</label>
+    </div>
+  </div>
+</div>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      observer.unobserve(entry.target);
+      const root = entry.target as HTMLElement;
+      import("../scripts/antvla-viewer").then(({ initRolloutViewer }) => initRolloutViewer(root)).catch((error) => {
+        console.error("Could not load the 3D viewer", error);
+        root.querySelector("[data-rollout-state]")!.textContent = "3D unavailable";
+        root.querySelector("[data-rollout-message]")!.textContent = "Could not load the 3D viewer. Refresh to try again.";
+        root.querySelector("[data-rollout-viewport]")!.setAttribute("aria-busy", "false");
+      });
+    }
+  }, { rootMargin: "300px" });
+
+  document.querySelectorAll("[data-rollout-demo]").forEach((root) => observer.observe(root));
+</script>
+
+<style>
+  .rollout-demo {
+    container-type: inline-size;
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .demo-heading,
+  .policy-bar {
+    padding: 12px 14px;
+  }
+
+  .demo-heading,
+  .policy-bar,
+  .policy-switch,
+  .timeline-controls,
+  .view-controls {
+    display: flex;
+    align-items: center;
+  }
+
+  .demo-heading,
+  .policy-bar {
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .demo-heading,
+  .policy-bar {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .demo-heading { height: 68px; }
+  .policy-bar { height: 59px; }
+
+  .demo-kicker {
+    margin: 0 0 4px;
+    color: var(--home-accent);
+    font-size: 0.65rem;
+    letter-spacing: 0.07em;
+    text-transform: lowercase;
+  }
+
+  .demo-instruction {
+    margin: 0;
+    color: var(--text);
+    font-size: 0.82rem;
+  }
+
+  .policy-switch button,
+  .playback-controls button,
+  select {
+    min-height: 34px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 0.74rem;
+    cursor: pointer;
+  }
+
+  button:disabled,
+  select:disabled {
+    cursor: wait;
+    opacity: 0.5;
+  }
+
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible {
+    outline: 2px solid var(--home-accent);
+    outline-offset: 3px;
+  }
+
+  .policy-switch button:hover,
+  .policy-switch button:focus-visible {
+    background: color-mix(in srgb, var(--home-accent) 10%, transparent);
+  }
+
+  .policy-switch {
+    gap: 0;
+  }
+
+  .policy-switch button {
+    padding: 6px 12px;
+  }
+
+  .policy-switch button + button {
+    border-left: 0;
+  }
+
+  .policy-switch button[aria-pressed="true"] {
+    border-color: var(--home-accent);
+    background: var(--home-accent);
+    color: var(--background);
+  }
+
+  .playback-state {
+    color: var(--muted);
+    font-size: 0.65rem;
+    text-transform: lowercase;
+  }
+
+  .scene-frame {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    background: var(--surface-light);
+  }
+
+  .scene-frame canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+    cursor: grab;
+  }
+
+  .scene-label,
+  .orbit-hint {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    padding: 4px 6px;
+    background: color-mix(in srgb, var(--background) 85%, transparent);
+    color: var(--text);
+    font-size: 0.65rem;
+    pointer-events: none;
+  }
+
+  .orbit-hint {
+    top: auto;
+    bottom: 8px;
+    color: var(--muted);
+  }
+
+  .scene-message {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    margin: 0;
+    padding: 28px;
+    color: var(--text);
+    background: var(--surface-light);
+    text-align: center;
+  }
+
+  .scene-message[hidden] {
+    display: none;
+  }
+
+  .playback-controls {
+    height: 90px;
+    display: grid;
+    grid-template-rows: 30px 30px;
+    gap: 8px;
+    padding: 10px 14px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.7rem;
+  }
+
+  .playback-controls button,
+  select {
+    padding: 4px 8px;
+    min-height: 30px;
+  }
+
+  .timeline-controls,
+  .view-controls {
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .timeline-controls > button {
+    min-width: 56px;
+  }
+
+  .playback-controls input[type="range"] {
+    flex: 1;
+    min-width: 0;
+    width: 0;
+  }
+
+  input {
+    accent-color: var(--home-accent);
+  }
+
+  .time-readout {
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .speed-control,
+  .loop-control {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  select {
+    background: var(--surface);
+  }
+
+  @container (max-width: 420px) {
+    .demo-heading { height: 90px; }
+    .policy-bar { height: 90px; }
+    .scene-frame {
+      aspect-ratio: 4 / 3;
+    }
+
+    .policy-bar {
+      flex-wrap: wrap;
+    }
+
+    .playback-state {
+      margin-left: auto;
+    }
+  }
+</style>
