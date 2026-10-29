@@ -26,11 +26,9 @@ export async function initRolloutViewer(root: HTMLElement) {
   const canvas = element<HTMLCanvasElement>("[data-rollout-canvas]");
   const viewport = element<HTMLElement>("[data-rollout-viewport]");
   const message = element<HTMLElement>("[data-rollout-message]");
-  const state = element<HTMLElement>("[data-rollout-state]");
   const playButton = element<HTMLButtonElement>("[data-rollout-play]");
   const timeline = element<HTMLInputElement>("[data-rollout-timeline]");
   const timeReadout = element<HTMLElement>("[data-rollout-time]");
-  const speed = element<HTMLSelectElement>("[data-rollout-speed]");
   const assetURL = (name: string) => `${root.dataset.assets}${name}`;
   let renderer: THREE.WebGLRenderer | undefined;
 
@@ -172,7 +170,6 @@ export async function initRolloutViewer(root: HTMLElement) {
 
     const updatePlayback = () => {
       playButton.textContent = playing ? "pause" : time >= trajectories[selectedPolicy].duration ? "replay" : "play";
-      state.textContent = playing ? "playing · live 3D" : time >= trajectories[selectedPolicy].duration ? "finished" : "paused";
       root.dataset.playback = playing ? "playing" : "paused";
     };
     const selectPolicy = (policy: Policy) => {
@@ -219,7 +216,7 @@ export async function initRolloutViewer(root: HTMLElement) {
       const delta = previousTime === undefined ? 0 : (timestamp - previousTime) / 1000;
       previousTime = timestamp;
       if (playing) {
-        time += delta * Number(speed.value);
+        time += delta;
         const duration = trajectories[selectedPolicy].duration;
         if (time >= duration) time %= duration;
         applyFrame();
@@ -241,7 +238,7 @@ export async function initRolloutViewer(root: HTMLElement) {
     visibilityObserver.observe(root);
     document.addEventListener("visibilitychange", updateVisibility);
 
-    root.querySelectorAll<HTMLButtonElement | HTMLInputElement | HTMLSelectElement>("button, input, select")
+    root.querySelectorAll<HTMLButtonElement | HTMLInputElement>("button, input")
       .forEach((control) => { control.disabled = false; });
     message.hidden = true;
     viewport.setAttribute("aria-busy", "false");
@@ -270,7 +267,6 @@ export async function initRolloutViewer(root: HTMLElement) {
   } catch (error) {
     console.error("Could not initialise the robot rollout", error);
     renderer?.dispose();
-    state.textContent = "3D unavailable";
     message.textContent = "Could not load the 3D scene. Check your connection and that WebGL 2 is enabled, then refresh.";
     viewport.setAttribute("aria-busy", "false");
     root.dataset.ready = "error";

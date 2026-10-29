@@ -17,7 +17,6 @@
       </button>
     </div>
 
-    <span class="playback-state" data-rollout-state aria-live="polite">loading 3D scene…</span>
   </div>
 
   <div class="scene-frame" data-rollout-viewport aria-busy="true">
@@ -47,16 +46,6 @@
       />
       <span class="time-readout" data-rollout-time>0.0 / 0.0 s</span>
     </div>
-    <div class="view-controls">
-      <label class="speed-control">
-        speed
-        <select data-rollout-speed aria-label="Playback speed" disabled>
-          <option value="0.5">0.5×</option>
-          <option value="1" selected>1×</option>
-          <option value="2">2×</option>
-        </select>
-      </label>
-    </div>
   </div>
 </div>
 
@@ -68,7 +57,6 @@
       const root = entry.target as HTMLElement;
       import("../scripts/antvla-viewer").then(({ initRolloutViewer }) => initRolloutViewer(root)).catch((error) => {
         console.error("Could not load the 3D viewer", error);
-        root.querySelector("[data-rollout-state]")!.textContent = "3D unavailable";
         root.querySelector("[data-rollout-message]")!.textContent = "Could not load the 3D viewer. Refresh to try again.";
         root.querySelector("[data-rollout-viewport]")!.setAttribute("aria-busy", "false");
       });
@@ -96,8 +84,7 @@
   .demo-heading,
   .policy-bar,
   .policy-switch,
-  .timeline-controls,
-  .view-controls {
+  .timeline-controls {
     display: flex;
     align-items: center;
   }
@@ -130,8 +117,7 @@
   }
 
   .policy-switch button,
-  .playback-controls button,
-  select {
+  .playback-controls button {
     min-height: 34px;
     border: 1px solid var(--border);
     background: transparent;
@@ -141,15 +127,13 @@
     cursor: pointer;
   }
 
-  button:disabled,
-  select:disabled {
+  button:disabled {
     cursor: wait;
     opacity: 0.5;
   }
 
   button:focus-visible,
-  input:focus-visible,
-  select:focus-visible {
+  input:focus-visible {
     outline: 2px solid var(--home-accent);
     outline-offset: 3px;
   }
@@ -175,12 +159,6 @@
     border-color: var(--home-accent);
     background: var(--home-accent);
     color: var(--background);
-  }
-
-  .playback-state {
-    color: var(--muted);
-    font-size: 0.65rem;
-    text-transform: lowercase;
   }
 
   .scene-frame {
@@ -232,9 +210,8 @@
   }
 
   .playback-controls {
-    height: 90px;
+    min-height: 52px;
     display: grid;
-    grid-template-rows: 30px 30px;
     gap: 8px;
     padding: 10px 14px;
     border-top: 1px solid var(--border);
@@ -242,14 +219,12 @@
     font-size: 0.7rem;
   }
 
-  .playback-controls button,
-  select {
+  .playback-controls button {
     padding: 4px 8px;
     min-height: 30px;
   }
 
-  .timeline-controls,
-  .view-controls {
+  .timeline-controls {
     gap: 10px;
     min-width: 0;
   }
@@ -273,16 +248,6 @@
     font-variant-numeric: tabular-nums;
   }
 
-  .speed-control {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  select {
-    background: var(--surface);
-  }
-
   @container (max-width: 420px) {
     .demo-heading { min-height: 180px; }
     .policy-bar { height: 90px; }
@@ -294,8 +259,5 @@
       flex-wrap: wrap;
     }
 
-    .playback-state {
-      margin-left: auto;
-    }
   }
 </style>

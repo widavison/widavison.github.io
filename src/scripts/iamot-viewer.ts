@@ -19,7 +19,6 @@ export async function initIamotViewer(root: HTMLElement) {
   const poster = element<HTMLImageElement>("[data-iamot-poster]");
   const play = element<HTMLButtonElement>("[data-iamot-play]");
   const timeline = element<HTMLInputElement>("[data-iamot-timeline]");
-  const speed = element<HTMLSelectElement>("[data-iamot-speed]");
   const reveal = element<HTMLButtonElement>("[data-iamot-reveal]");
   const time = element<HTMLElement>("[data-iamot-time]");
   const ctx = canvas.getContext("2d");
@@ -42,8 +41,10 @@ export async function initIamotViewer(root: HTMLElement) {
   let animation: number | undefined;
   const events = new AbortController();
   const updateReveal = () => {
-    root.dataset.revealed = String(pinned || hovered || focused);
-    reveal.setAttribute("aria-pressed", String(pinned));
+    const playing = !video.paused && !video.ended;
+    root.dataset.revealed = String(playing && (pinned || hovered || focused));
+    reveal.disabled = !playing;
+    reveal.setAttribute("aria-pressed", String(playing && pinned));
   };
   const draw = (seconds: number) => {
     const frame = Math.min(data.frames - 1, Math.max(0, Math.floor(seconds * data.fps + .001)));
@@ -72,6 +73,8 @@ export async function initIamotViewer(root: HTMLElement) {
   const updatePlayback = () => {
     play.textContent = video.paused ? "play" : "pause";
     root.dataset.playback = video.paused ? "paused" : "playing";
+    if (video.paused) pinned = false;
+    updateReveal();
   };
   const resume = () => {
     if (visible && !document.hidden && wantsToPlay) video.play().catch(updatePlayback);
@@ -81,8 +84,11 @@ export async function initIamotViewer(root: HTMLElement) {
   timeline.addEventListener("input", () => {
     wantsToPlay = false; video.pause(); video.currentTime = Number(timeline.value);
   }, { signal: events.signal });
-  speed.addEventListener("change", () => { video.playbackRate = Number(speed.value); }, { signal: events.signal });
-  reveal.addEventListener("click", () => { pinned = !pinned; updateReveal(); }, { signal: events.signal });
+  reveal.addEventListener("click", () => {
+    if (video.paused || video.ended) return;
+    pinned = !pinned;
+    updateReveal();
+  }, { signal: events.signal });
   viewport.addEventListener("pointerenter", (event) => {
     if (event.pointerType !== "touch") { hovered = true; updateReveal(); }
   }, { signal: events.signal });
@@ -112,7 +118,7 @@ export async function initIamotViewer(root: HTMLElement) {
   }
   draw(0); updatePlayback(); updateReveal();
   canvas.hidden = false; poster.hidden = true;
-  for (const control of [play, timeline, speed, reveal]) control.disabled = false;
+  for (const control of [play, timeline]) control.disabled = false;
   viewport.setAttribute("aria-busy", "false"); root.dataset.ready = "true";
   const dispose = () => {
     disposed = true; video.pause(); observer.disconnect(); events.abort();

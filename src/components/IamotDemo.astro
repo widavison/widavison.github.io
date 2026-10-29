@@ -2,14 +2,13 @@
   <div class="demo-heading">
     <div>
       <p class="demo-kicker">animated point-tracks extracted using <a href="https://cotracker3.github.io/" target="_blank" rel="noopener noreferrer">CoTracker3 ↗</a></p>
-      <p class="demo-instruction">The action displayed is efficiently represented by the motion of the point-tracks alone.</p>
+      <p class="demo-instruction">The action displayed is efficiently represented by the motion of just a few point-tracks. The RGB video includes redundant background and context information which does not represent the action.</p>
     </div>
   </div>
 
   <div class="motion-bar">
-    <span>50 point tracks · 0.5 s trails</span>
-    <span class="desktop-hint">hover to reveal video</span>
-    <span class="touch-hint">tap reveal video below</span>
+    <span class="desktop-hint">hover during playback to reveal video</span>
+    <span class="touch-hint">tap reveal video during playback</span>
   </div>
 
   <div
@@ -17,7 +16,7 @@
     data-iamot-viewport
     tabindex="0"
     role="group"
-    aria-label="Juggling point tracks. Hover or focus to reveal the original video; tracks remain visible."
+    aria-label="Juggling point tracks. During playback, hover or focus to reveal the original video; tracks remain visible."
     aria-busy="true"
   >
     <video data-iamot-video muted loop playsinline preload="none" aria-hidden="true"></video>
@@ -33,13 +32,6 @@
       <span class="time-readout" data-iamot-time>0.0 / 4.0 s</span>
     </div>
     <div class="view-controls">
-      <label class="speed-control">speed
-        <select data-iamot-speed aria-label="Juggling playback speed" disabled>
-          <option value="0.5">0.5×</option>
-          <option value="1" selected>1×</option>
-          <option value="2">2×</option>
-        </select>
-      </label>
       <button type="button" class="mobile-reveal" data-iamot-reveal aria-pressed="false" disabled>reveal video</button>
     </div>
   </div>
@@ -77,15 +69,15 @@
   .motion-frame video { opacity: 0; transition: opacity 650ms ease-in-out; }
   .motion-frame canvas { z-index: 1; pointer-events: none; }
   .motion-demo[data-revealed="true"] video { opacity: 1; }
+  .motion-demo[data-playback="paused"] video { opacity: 0; transition: none; }
   .motion-frame:focus-visible { outline: 2px solid var(--home-accent); outline-offset: -2px; }
   .motion-message { position: absolute; inset: 0; display: grid; place-content: center; margin: 0; padding: 20px; background: #000; color: var(--text); text-align: center; font-size: .8rem; }
-  .playback-controls { height: 90px; display: grid; grid-template-rows: 30px 30px; gap: 8px; padding: 10px 14px; border-top: 1px solid var(--border); color: var(--muted); font-size: .7rem; }
-  .timeline-controls, .view-controls, .speed-control { display: flex; align-items: center; gap: 10px; min-width: 0; }
-  .speed-control { gap: 6px; }
-  button, select { min-height: 30px; padding: 4px 8px; border: 1px solid var(--border); background: transparent; color: var(--muted); font-family: inherit; font-size: .74rem; cursor: pointer; }
-  select { background: var(--surface); }
-  button:disabled, select:disabled { cursor: wait; opacity: .5; }
-  button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--home-accent); outline-offset: 3px; }
+  .playback-controls { min-height: 52px; display: grid; gap: 8px; padding: 10px 14px; border-top: 1px solid var(--border); color: var(--muted); font-size: .7rem; }
+  .timeline-controls, .view-controls { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .view-controls { display: none; }
+  button { min-height: 30px; padding: 4px 8px; border: 1px solid var(--border); background: transparent; color: var(--muted); font-family: inherit; font-size: .74rem; cursor: pointer; }
+  button:disabled { cursor: default; opacity: .5; }
+  button:focus-visible, input:focus-visible { outline: 2px solid var(--home-accent); outline-offset: 3px; }
   .timeline-controls > button { min-width: 56px; }
   input[type="range"] { flex: 1; min-width: 0; width: 0; accent-color: var(--home-accent); }
   .time-readout { flex-shrink: 0; font-variant-numeric: tabular-nums; }
@@ -97,6 +89,7 @@
     .motion-frame { aspect-ratio: 4 / 3; }
   }
   @media (hover: none), (pointer: coarse), (max-width: 760px) {
+    .view-controls { display: flex; }
     .mobile-reveal { display: inline-block; }
     .desktop-hint { display: none; }
     .touch-hint { display: inline; }
