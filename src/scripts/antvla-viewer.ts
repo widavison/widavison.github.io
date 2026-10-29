@@ -31,7 +31,6 @@ export async function initRolloutViewer(root: HTMLElement) {
   const timeline = element<HTMLInputElement>("[data-rollout-timeline]");
   const timeReadout = element<HTMLElement>("[data-rollout-time]");
   const speed = element<HTMLSelectElement>("[data-rollout-speed]");
-  const loop = element<HTMLInputElement>("[data-rollout-loop]");
   const assetURL = (name: string) => `${root.dataset.assets}${name}`;
   let renderer: THREE.WebGLRenderer | undefined;
 
@@ -222,14 +221,7 @@ export async function initRolloutViewer(root: HTMLElement) {
       if (playing) {
         time += delta * Number(speed.value);
         const duration = trajectories[selectedPolicy].duration;
-        if (time >= duration) {
-          if (loop.checked) time %= duration;
-          else {
-            time = duration;
-            playing = false;
-            updatePlayback();
-          }
-        }
+        if (time >= duration) time %= duration;
         applyFrame();
       }
       controls.update();
@@ -243,10 +235,10 @@ export async function initRolloutViewer(root: HTMLElement) {
       renderer!.setAnimationLoop(visible && !document.hidden ? tick : null);
     };
     const visibilityObserver = new IntersectionObserver(([entry]) => {
-      visible = entry.isIntersecting;
+      visible = entry.isIntersecting && entry.intersectionRatio >= .1;
       updateVisibility();
-    });
-    visibilityObserver.observe(viewport);
+    }, { threshold: .1 });
+    visibilityObserver.observe(root);
     document.addEventListener("visibilitychange", updateVisibility);
 
     root.querySelectorAll<HTMLButtonElement | HTMLInputElement | HTMLSelectElement>("button, input, select")

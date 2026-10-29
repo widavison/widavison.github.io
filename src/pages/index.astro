@@ -59,7 +59,18 @@ import { site } from "../data/site";
 
       <div class="selected-work-grid">
         <article class="work-card selected-work-card" id="iamot-demo">
-          <p class="status">preprint · under review</p>
+          <div class="selected-work-header">
+            <p class="status">preprint · under review</p>
+            <div class="work-links iamot-paper-link">
+              <a
+                href="https://arxiv.org/abs/2602.14705"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                paper ↗
+              </a>
+            </div>
+          </div>
 
           <h2>
             It's a Matter of Time: Three Lessons on Long-Term Motion for
@@ -73,15 +84,6 @@ import { site } from "../data/site";
 
           <IamotDemo />
 
-          <div class="work-links iamot-paper-link">
-            <a
-              href="https://arxiv.org/abs/2602.14705"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              paper ↗
-            </a>
-          </div>
         </article>
 
         <article class="work-card selected-work-card" id="antvla-demo">
@@ -126,5 +128,7 @@ import { site } from "../data/site";
 </BaseLayout>
 
 <style>
-  .iamot-paper-link { padding-top: 16px; }
+  .selected-work-header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+  .selected-work-header .status { margin-bottom: 0; }
+  .selected-work-header .iamot-paper-link { margin: 0 0 0 auto; white-space: nowrap; }
 </style>

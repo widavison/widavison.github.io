@@ -1,8 +1,8 @@
 <div class="rollout-demo" data-rollout-demo data-assets="/demo/antvla/3d/">
   <div class="demo-heading">
     <div>
-      <p class="demo-kicker">Interactive 3D rollout</p>
-      <p class="demo-instruction">“Place the green avocado in the paper box.”</p>
+      <p class="demo-kicker">pick and place command: “Place the green avocado in the paper box.”</p>
+      <p class="demo-instruction">The baseline model attempts to grasp the object in an outdated position. AntVLA anticipates the object's motion and completes the task successfully.</p>
     </div>
 
   </div>
@@ -56,7 +56,6 @@
           <option value="2">2×</option>
         </select>
       </label>
-      <label class="loop-control"><input type="checkbox" data-rollout-loop checked disabled /> loop</label>
     </div>
   </div>
 </div>
@@ -114,15 +113,14 @@
     border-bottom: 1px solid var(--border);
   }
 
-  .demo-heading { height: 68px; }
+  .demo-heading { min-height: 144px; }
   .policy-bar { height: 59px; }
 
   .demo-kicker {
-    margin: 0 0 4px;
+    margin: 0 0 8px;
     color: var(--home-accent);
     font-size: 0.65rem;
     letter-spacing: 0.07em;
-    text-transform: lowercase;
   }
 
   .demo-instruction {
@@ -275,8 +273,7 @@
     font-variant-numeric: tabular-nums;
   }
 
-  .speed-control,
-  .loop-control {
+  .speed-control {
     display: flex;
     align-items: center;
     gap: 6px;
@@ -287,7 +284,7 @@
   }
 
   @container (max-width: 420px) {
-    .demo-heading { height: 90px; }
+    .demo-heading { min-height: 180px; }
     .policy-bar { height: 90px; }
     .scene-frame {
       aspect-ratio: 4 / 3;

@@ -94,8 +94,12 @@ export async function initIamotViewer(root: HTMLElement) {
   video.addEventListener("seeked", () => draw(video.currentTime), { signal: events.signal });
   video.addEventListener("loadeddata", () => { draw(video.currentTime); resume(); }, { signal: events.signal });
   document.addEventListener("visibilitychange", resume, { signal: events.signal });
-  const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; resume(); });
-  observer.observe(viewport);
+  // Assets preload nearby; playback starts as the demo itself enters view.
+  const observer = new IntersectionObserver(([entry]) => {
+    visible = entry.isIntersecting && entry.intersectionRatio >= .1;
+    resume();
+  }, { threshold: .1 });
+  observer.observe(root);
   if (typeof video.requestVideoFrameCallback === "function") {
     const onFrame: VideoFrameRequestCallback = (_now, metadata) => {
       if (disposed) return;
