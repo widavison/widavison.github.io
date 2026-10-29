@@ -2,7 +2,7 @@
   <div class="demo-heading">
     <div>
       <p class="demo-kicker">animated point-tracks extracted using <a href="https://cotracker3.github.io/" target="_blank" rel="noopener noreferrer">CoTracker3 ↗</a></p>
-      <p class="demo-instruction">The action displayed is efficiently represented by the motion of the point-tracks alone</p>
+      <p class="demo-instruction">The action displayed is efficiently represented by the motion of the point-tracks alone.</p>
     </div>
   </div>
 
@@ -66,15 +66,15 @@
 <style>
   .motion-demo { container-type: inline-size; width: 100%; min-width: 0; overflow: hidden; border: 1px solid var(--border); background: var(--surface); }
   [hidden] { display: none !important; }
-   .demo-heading { min-height: 144px; padding: 12px 14px; display: flex; align-items: center; border-bottom: 1px solid var(--border); }
-   .demo-kicker { margin: 0 0 8px; color: var(--home-accent); font-size: .65rem; letter-spacing: .07em; }
-   .demo-kicker a { text-decoration: underline; text-underline-offset: 3px; }
+  .demo-heading { min-height: 144px; padding: 12px 14px; display: flex; align-items: center; border-bottom: 1px solid var(--border); }
+  .demo-kicker { margin: 0 0 8px; color: var(--home-accent); font-size: .65rem; letter-spacing: .07em; }
+  .demo-kicker a { text-decoration: underline; text-underline-offset: 3px; }
   .demo-instruction { margin: 0; color: var(--text); font-size: .82rem; }
   .motion-bar { height: 59px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); color: var(--muted); font-size: .65rem; }
   .touch-hint { display: none; }
   .motion-frame { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: #000; }
   .motion-frame video, .motion-frame canvas, .motion-frame img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: contain; }
-   .motion-frame video { opacity: 0; transition: opacity 650ms ease-in-out; }
+  .motion-frame video { opacity: 0; transition: opacity 650ms ease-in-out; }
   .motion-frame canvas { z-index: 1; pointer-events: none; }
   .motion-demo[data-revealed="true"] video { opacity: 1; }
   .motion-frame:focus-visible { outline: 2px solid var(--home-accent); outline-offset: -2px; }
@@ -92,7 +92,7 @@
   .mobile-reveal { display: none; margin-left: auto; }
   .mobile-reveal[aria-pressed="true"] { color: var(--background); border-color: var(--home-accent); background: var(--home-accent); }
   @container (max-width: 420px) {
-     .demo-heading { min-height: 180px; }
+    .demo-heading { min-height: 180px; }
     .motion-bar { height: 90px; flex-direction: column; align-items: flex-start; justify-content: center; gap: 8px; }
     .motion-frame { aspect-ratio: 4 / 3; }
   }
