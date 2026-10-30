@@ -11,8 +11,8 @@ type Joint = { name: string; type: "revolute" | "prismatic"; axis: [number, numb
 type Policy = "baseline" | "antvla";
 
 const policies = {
-  baseline: "baseline",
-  antvla: "AntVLA",
+  baseline: "Baseline rollout: attempts to grasp the avocado at its outdated position and misses.",
+  antvla: "AntVLA rollout: anticipates the moving avocado and places it in the box.",
 };
 
 async function loadJSON<T>(url: string): Promise<T> {
@@ -26,9 +26,6 @@ export async function initRolloutViewer(root: HTMLElement) {
   const canvas = element<HTMLCanvasElement>("[data-rollout-canvas]");
   const viewport = element<HTMLElement>("[data-rollout-viewport]");
   const message = element<HTMLElement>("[data-rollout-message]");
-  const playButton = element<HTMLButtonElement>("[data-rollout-play]");
-  const timeline = element<HTMLInputElement>("[data-rollout-timeline]");
-  const timeReadout = element<HTMLElement>("[data-rollout-time]");
   const assetURL = (name: string) => `${root.dataset.assets}${name}`;
   let renderer: THREE.WebGLRenderer | undefined;
 
@@ -94,6 +91,8 @@ export async function initRolloutViewer(root: HTMLElement) {
     const camera = new THREE.PerspectiveCamera(cameraSpec.vertical_fov_degrees, 16 / 9, 0.01, 20);
     const controls = new OrbitControls(camera, canvas);
     controls.enableDamping = true;
+    controls.enableZoom = true;
+    controls.enablePan = false;
     controls.minDistance = 0.45;
     controls.maxDistance = 4;
     controls.maxPolarAngle = Math.PI / 2 - 0.02;
@@ -123,7 +122,6 @@ export async function initRolloutViewer(root: HTMLElement) {
     });
     let selectedPolicy: Policy = "antvla";
     let time = 0;
-    let playing = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let previousTime: number | undefined;
     const rotation = new THREE.Quaternion();
     const nextRotation = new THREE.Quaternion();
@@ -163,43 +161,23 @@ export async function initRolloutViewer(root: HTMLElement) {
       }
       applyPose(avocado.scene, start.object, end.object, alpha);
       applyPose(box.scene, start.target, end.target, alpha);
-      timeline.value = String(time);
-      timeline.setAttribute("aria-valuetext", `${time.toFixed(1)} of ${trajectory.duration.toFixed(1)} seconds`);
-      timeReadout.textContent = `${time.toFixed(1)} / ${trajectory.duration.toFixed(1)} s`;
+      root.dataset.time = String(time);
     };
 
-    const updatePlayback = () => {
-      playButton.textContent = playing ? "pause" : time >= trajectories[selectedPolicy].duration ? "replay" : "play";
-      root.dataset.playback = playing ? "playing" : "paused";
-    };
     const selectPolicy = (policy: Policy) => {
       selectedPolicy = policy;
       time = 0;
       previousTime = undefined;
-      timeline.max = String(trajectories[policy].duration);
-      element<HTMLElement>("[data-rollout-label]").textContent = policies[policy];
+      canvas.setAttribute("aria-label", `${policies[policy]} Drag to rotate; scroll or pinch to zoom.`);
       root.querySelectorAll<HTMLButtonElement>("[data-policy]").forEach((button) => {
         button.setAttribute("aria-pressed", String(button.dataset.policy === policy));
       });
       root.dataset.selectedPolicy = policy;
       applyFrame();
-      updatePlayback();
     };
 
     root.querySelectorAll<HTMLButtonElement>("[data-policy]").forEach((button) => {
       button.addEventListener("click", () => selectPolicy(button.dataset.policy as Policy));
-    });
-    playButton.addEventListener("click", () => {
-      if (time >= trajectories[selectedPolicy].duration) time = 0;
-      playing = !playing;
-      previousTime = undefined;
-      updatePlayback();
-    });
-    timeline.addEventListener("input", () => {
-      playing = false;
-      time = Number(timeline.value);
-      applyFrame();
-      updatePlayback();
     });
     const resize = () => {
       const { width, height } = viewport.getBoundingClientRect();
@@ -215,12 +193,10 @@ export async function initRolloutViewer(root: HTMLElement) {
     const tick = (timestamp: number) => {
       const delta = previousTime === undefined ? 0 : (timestamp - previousTime) / 1000;
       previousTime = timestamp;
-      if (playing) {
-        time += delta;
-        const duration = trajectories[selectedPolicy].duration;
-        if (time >= duration) time %= duration;
-        applyFrame();
-      }
+      time += delta;
+      const duration = trajectories[selectedPolicy].duration;
+      if (time >= duration) time %= duration;
+      applyFrame();
       controls.update();
       renderer!.render(scene, camera);
     };
@@ -229,16 +205,18 @@ export async function initRolloutViewer(root: HTMLElement) {
     let visible = false;
     const updateVisibility = () => {
       previousTime = undefined;
-      renderer!.setAnimationLoop(visible && !document.hidden ? tick : null);
+      const active = visible && !document.hidden;
+      root.dataset.playback = active ? "playing" : "paused";
+      renderer!.setAnimationLoop(active ? tick : null);
     };
     const visibilityObserver = new IntersectionObserver(([entry]) => {
-      visible = entry.isIntersecting && entry.intersectionRatio >= .1;
+      visible = entry.isIntersecting;
       updateVisibility();
-    }, { threshold: .1 });
-    visibilityObserver.observe(root);
+    });
+    visibilityObserver.observe(viewport);
     document.addEventListener("visibilitychange", updateVisibility);
 
-    root.querySelectorAll<HTMLButtonElement | HTMLInputElement>("button, input")
+    root.querySelectorAll<HTMLButtonElement>("[data-policy]")
       .forEach((control) => { control.disabled = false; });
     message.hidden = true;
     viewport.setAttribute("aria-busy", "false");

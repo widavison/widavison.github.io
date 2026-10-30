@@ -1,51 +1,33 @@
-<div class="rollout-demo" data-rollout-demo data-assets="/demo/antvla/3d/">
-  <div class="demo-heading">
-    <div>
-      <p class="demo-kicker">pick and place command: “Place the green avocado in the paper box.”</p>
-      <p class="demo-instruction">The baseline model attempts to grasp the object in an outdated position. AntVLA anticipates the object's motion and completes the task successfully.</p>
-    </div>
+---
+import "../styles/demos.css";
+---
 
+<div class="demo-panel rollout-demo" data-rollout-demo data-assets="/demo/antvla/3d/">
+  <div class="demo-toolbar">
+    <p class="demo-hint">click to compare rollouts</p>
+    <div class="demo-options" role="group" aria-label="Switch between baseline and AntVLA rollouts">
+      <button type="button" data-policy="baseline" aria-pressed="false" disabled>Baseline · misses</button>
+      <button type="button" data-policy="antvla" aria-pressed="true" disabled>AntVLA · succeeds</button>
+    </div>
   </div>
 
-  <div class="policy-bar">
-    <div class="policy-switch" role="group" aria-label="Choose rollout">
-      <button type="button" data-policy="baseline" aria-pressed="false" disabled>
-        baseline
-      </button>
-      <button type="button" data-policy="antvla" aria-pressed="true" disabled>
-        AntVLA
-      </button>
-    </div>
-
-  </div>
-
-  <div class="scene-frame" data-rollout-viewport aria-busy="true">
+  <div class="demo-frame scene-frame" data-rollout-viewport aria-busy="true">
     <canvas
       data-rollout-canvas
       role="img"
-      aria-label="Interactive 3D Franka robot replaying recorded joint motion. Drag to orbit and scroll or pinch to zoom."
+      aria-label="AntVLA rollout: anticipates the moving avocado and places it in the box. Drag to rotate; scroll or pinch to zoom."
     ></canvas>
-    <span class="scene-label" data-rollout-label>AntVLA</span>
+    <span class="orbit-hint" aria-hidden="true">
+      <span class="mouse-hint">drag to rotate · scroll to zoom</span>
+      <span class="touch-hint">drag to rotate · pinch to zoom</span>
+    </span>
     <p class="scene-message" data-rollout-message role="status">Loading robot and recorded motion…</p>
-    <span class="orbit-hint">drag to orbit · scroll / pinch to zoom</span>
     <noscript><p class="scene-message">Enable JavaScript to view the 3D robot animation.</p></noscript>
   </div>
 
-  <div class="playback-controls">
-    <div class="timeline-controls">
-      <button type="button" data-rollout-play disabled>play</button>
-      <input
-        type="range"
-        data-rollout-timeline
-        aria-label="Rollout time"
-        min="0"
-        max="1"
-        step="0.001"
-        value="0"
-        disabled
-      />
-      <span class="time-readout" data-rollout-time>0.0 / 0.0 s</span>
-    </div>
+  <div class="demo-heading">
+    <p class="demo-kicker">pick and place command: “Place the green avocado in the paper box.”</p>
+    <p class="demo-instruction">The baseline model attempts to grasp the object in an outdated position. AntVLA anticipates the object's motion and completes the task successfully.</p>
   </div>
 </div>
 
@@ -61,203 +43,20 @@
         root.querySelector("[data-rollout-viewport]")!.setAttribute("aria-busy", "false");
       });
     }
-  }, { rootMargin: "300px" });
+  }, { rootMargin: "600px" });
 
   document.querySelectorAll("[data-rollout-demo]").forEach((root) => observer.observe(root));
 </script>
 
 <style>
-  .rollout-demo {
-    container-type: inline-size;
-    width: 100%;
-    min-width: 0;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    background: var(--surface);
+  .scene-frame { background: var(--surface-light); }
+  .scene-frame canvas { display: block; width: 100%; height: 100%; touch-action: none; cursor: grab; }
+  .orbit-hint { position: absolute; bottom: 8px; left: 8px; padding: 4px 6px; background: color-mix(in srgb, var(--background) 85%, transparent); color: var(--muted); font-size: .62rem; line-height: 1.4; pointer-events: none; }
+  .touch-hint { display: none; }
+  @media (hover: none), (pointer: coarse) {
+    .mouse-hint { display: none; }
+    .touch-hint { display: inline; }
   }
-
-  .demo-heading,
-  .policy-bar {
-    padding: 12px 14px;
-  }
-
-  .demo-heading,
-  .policy-bar,
-  .policy-switch,
-  .timeline-controls {
-    display: flex;
-    align-items: center;
-  }
-
-  .demo-heading,
-  .policy-bar {
-    justify-content: space-between;
-    gap: 12px;
-  }
-
-  .demo-heading,
-  .policy-bar {
-    border-bottom: 1px solid var(--border);
-  }
-
-  .demo-heading { min-height: 144px; }
-  .policy-bar { height: 59px; }
-
-  .demo-kicker {
-    margin: 0 0 8px;
-    color: var(--home-accent);
-    font-size: 0.65rem;
-    letter-spacing: 0.07em;
-  }
-
-  .demo-instruction {
-    margin: 0;
-    color: var(--text);
-    font-size: 0.82rem;
-  }
-
-  .policy-switch button,
-  .playback-controls button {
-    min-height: 34px;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--muted);
-    font-family: inherit;
-    font-size: 0.74rem;
-    cursor: pointer;
-  }
-
-  button:disabled {
-    cursor: wait;
-    opacity: 0.5;
-  }
-
-  button:focus-visible,
-  input:focus-visible {
-    outline: 2px solid var(--home-accent);
-    outline-offset: 3px;
-  }
-
-  .policy-switch button:hover,
-  .policy-switch button:focus-visible {
-    background: color-mix(in srgb, var(--home-accent) 10%, transparent);
-  }
-
-  .policy-switch {
-    gap: 0;
-  }
-
-  .policy-switch button {
-    padding: 6px 12px;
-  }
-
-  .policy-switch button + button {
-    border-left: 0;
-  }
-
-  .policy-switch button[aria-pressed="true"] {
-    border-color: var(--home-accent);
-    background: var(--home-accent);
-    color: var(--background);
-  }
-
-  .scene-frame {
-    position: relative;
-    aspect-ratio: 16 / 10;
-    background: var(--surface-light);
-  }
-
-  .scene-frame canvas {
-    display: block;
-    width: 100%;
-    height: 100%;
-    touch-action: none;
-    cursor: grab;
-  }
-
-  .scene-label,
-  .orbit-hint {
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    padding: 4px 6px;
-    background: color-mix(in srgb, var(--background) 85%, transparent);
-    color: var(--text);
-    font-size: 0.65rem;
-    pointer-events: none;
-  }
-
-  .orbit-hint {
-    top: auto;
-    bottom: 8px;
-    color: var(--muted);
-  }
-
-  .scene-message {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    place-content: center;
-    margin: 0;
-    padding: 28px;
-    color: var(--text);
-    background: var(--surface-light);
-    text-align: center;
-  }
-
-  .scene-message[hidden] {
-    display: none;
-  }
-
-  .playback-controls {
-    min-height: 52px;
-    display: grid;
-    gap: 8px;
-    padding: 10px 14px;
-    border-top: 1px solid var(--border);
-    color: var(--muted);
-    font-size: 0.7rem;
-  }
-
-  .playback-controls button {
-    padding: 4px 8px;
-    min-height: 30px;
-  }
-
-  .timeline-controls {
-    gap: 10px;
-    min-width: 0;
-  }
-
-  .timeline-controls > button {
-    min-width: 56px;
-  }
-
-  .playback-controls input[type="range"] {
-    flex: 1;
-    min-width: 0;
-    width: 0;
-  }
-
-  input {
-    accent-color: var(--home-accent);
-  }
-
-  .time-readout {
-    flex-shrink: 0;
-    font-variant-numeric: tabular-nums;
-  }
-
-  @container (max-width: 420px) {
-    .demo-heading { min-height: 180px; }
-    .policy-bar { height: 90px; }
-    .scene-frame {
-      aspect-ratio: 4 / 3;
-    }
-
-    .policy-bar {
-      flex-wrap: wrap;
-    }
-
-  }
+  .scene-message { position: absolute; inset: 0; display: grid; place-content: center; margin: 0; padding: 28px; color: var(--text); background: var(--surface-light); text-align: center; }
+  .scene-message[hidden] { display: none; }
 </style>

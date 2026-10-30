@@ -17,25 +17,18 @@ export async function initIamotViewer(root: HTMLElement) {
   const canvas = element<HTMLCanvasElement>("[data-iamot-canvas]");
   const viewport = element<HTMLElement>("[data-iamot-viewport]");
   const poster = element<HTMLImageElement>("[data-iamot-poster]");
-  const play = element<HTMLButtonElement>("[data-iamot-play]");
-  const timeline = element<HTMLInputElement>("[data-iamot-timeline]");
   const reveal = element<HTMLButtonElement>("[data-iamot-reveal]");
-  const time = element<HTMLElement>("[data-iamot-time]");
   const ctx = canvas.getContext("2d");
   if (!ctx) throw new Error("Canvas drawing is unavailable");
   const response = await fetch(`${root.dataset.assets}tracks.json`);
   if (!response.ok) throw new Error(`Could not load trajectories: ${response.status}`);
   const data: MotionData = await response.json();
   if (data.frames !== data.tracks.length || data.colors.length !== data.tracks[0]?.length) throw new Error("Invalid point-track data");
-  const duration = data.frames / data.fps;
   const tail = Math.min(Math.round(.5 * data.fps), data.frames - 1);
   canvas.width = data.width; canvas.height = data.height;
   video.muted = true;
   video.preload = "auto";
   video.src = `${root.dataset.assets}video.mp4`;
-  timeline.max = String((data.frames - 1) / data.fps);
-  timeline.step = String(1 / data.fps);
-  let wantsToPlay = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   let visible = false, pinned = false, hovered = false, focused = false, disposed = false;
   let callback: number | undefined;
   let animation: number | undefined;
@@ -45,6 +38,7 @@ export async function initIamotViewer(root: HTMLElement) {
     root.dataset.revealed = String(playing && (pinned || hovered || focused));
     reveal.disabled = !playing;
     reveal.setAttribute("aria-pressed", String(playing && pinned));
+    reveal.textContent = playing && pinned ? "hide video" : "reveal video";
   };
   const draw = (seconds: number) => {
     const frame = Math.min(data.frames - 1, Math.max(0, Math.floor(seconds * data.fps + .001)));
@@ -66,24 +60,16 @@ export async function initIamotViewer(root: HTMLElement) {
       ctx.beginPath(); ctx.arc(x, y, 3.1, 0, Math.PI * 2); ctx.fill();
     });
     ctx.globalAlpha = 1;
-    timeline.value = String(frame / data.fps);
-    timeline.setAttribute("aria-valuetext", `${seconds.toFixed(1)} of ${duration.toFixed(1)} seconds`);
-    time.textContent = `${seconds.toFixed(1)} / ${duration.toFixed(1)} s`;
   };
   const updatePlayback = () => {
-    play.textContent = video.paused ? "play" : "pause";
     root.dataset.playback = video.paused ? "paused" : "playing";
     if (video.paused) pinned = false;
     updateReveal();
   };
   const resume = () => {
-    if (visible && !document.hidden && wantsToPlay) video.play().catch(updatePlayback);
+    if (visible && !document.hidden) video.play().catch(updatePlayback);
     else video.pause();
   };
-  play.addEventListener("click", () => { wantsToPlay = video.paused; resume(); }, { signal: events.signal });
-  timeline.addEventListener("input", () => {
-    wantsToPlay = false; video.pause(); video.currentTime = Number(timeline.value);
-  }, { signal: events.signal });
   reveal.addEventListener("click", () => {
     if (video.paused || video.ended) return;
     pinned = !pinned;
@@ -102,10 +88,10 @@ export async function initIamotViewer(root: HTMLElement) {
   document.addEventListener("visibilitychange", resume, { signal: events.signal });
   // Assets preload nearby; playback starts as the demo itself enters view.
   const observer = new IntersectionObserver(([entry]) => {
-    visible = entry.isIntersecting && entry.intersectionRatio >= .1;
+    visible = entry.isIntersecting;
     resume();
-  }, { threshold: .1 });
-  observer.observe(root);
+  });
+  observer.observe(viewport);
   if (typeof video.requestVideoFrameCallback === "function") {
     const onFrame: VideoFrameRequestCallback = (_now, metadata) => {
       if (disposed) return;
@@ -118,7 +104,6 @@ export async function initIamotViewer(root: HTMLElement) {
   }
   draw(0); updatePlayback(); updateReveal();
   canvas.hidden = false; poster.hidden = true;
-  for (const control of [play, timeline]) control.disabled = false;
   viewport.setAttribute("aria-busy", "false"); root.dataset.ready = "true";
   const dispose = () => {
     disposed = true; video.pause(); observer.disconnect(); events.abort();
