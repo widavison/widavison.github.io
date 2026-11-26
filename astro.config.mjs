@@ -10,7 +10,7 @@ const projectKey = createHash("sha256").update(import.meta.url).digest("hex").sl
 const viteCache = join(tmpdir(), `widavison-vite-${userInfo().uid}-${projectKey}`);
 
 export default defineConfig({
-  site: "https://widavison.github.io",
+  site: "https://willemdavison.me",
   vite: {
     cacheDir: viteCache,
     optimizeDeps: {
